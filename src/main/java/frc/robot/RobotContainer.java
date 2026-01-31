@@ -115,6 +115,8 @@ public class RobotContainer {
         }
         try {
             shooter = new Shooter();
+            // TODO: create a ShooterDefaultCommand
+            // Set this command to be the default command for shooter.
         } catch(Throwable error) {
             System.out.println(error.getMessage());
         }

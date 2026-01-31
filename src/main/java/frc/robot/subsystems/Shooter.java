@@ -19,4 +19,8 @@ public class Shooter extends SubsystemBase{
         leftMotor.set(0.4);
         rightMotor.set(0.4);
     }
+
+    public void stop() {
+        // TODO: Stop both motors
+    }
 }
