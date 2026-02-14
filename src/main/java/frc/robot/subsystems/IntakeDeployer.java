@@ -42,13 +42,13 @@ public class IntakeDeployer extends SubsystemBase{
         deployMotor.set(extendSpeed);
     }
 
-    public void runToDownPosition() {
+    public void runToExtendedPosition() {
         double feedforward = ff.calculate(downState.position*2*Math.PI, downState.velocity);
         deployMotor.getClosedLoopController().setSetpoint(downState.position, ControlType.kPosition, 
                                                                     ClosedLoopSlot.kSlot0, feedforward);
     }
 
-    public void runToUpPosition() {
+    public void runToRetractedPosition() {
         double feedforward = ff.calculate(upState.position*2*Math.PI, upState.velocity);
         deployMotor.getClosedLoopController().setSetpoint(upState.position, ControlType.kPosition, 
                                                                     ClosedLoopSlot.kSlot0, feedforward);

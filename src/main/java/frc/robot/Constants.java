@@ -16,16 +16,34 @@ public class Constants {
     }
 
     public class FeederConstants {
-        public static int leftFeederMotorCanId = 25;
-        public static int rightFeederMotorCanId = 26;
+        public static int motor1CanId = 25;
+        public static int motor2CanId = 26;
+
+        public static double kP = 0.0;
+        public static double kI = 0.0;
+        public static double kD = 0.0;
+        public static double kFF = 0.00015;
+        public static double setPoint = 3000.0;
     }
 
     public class RollerConstants {
         public static int rollerCanId = 27;
+
+        public static double kP = 0.0;
+        public static double kI = 0.0;
+        public static double kD = 0.0;
+        public static double kFF = 0.00015;
+        public static double setPoint = 3000.0;
     }
 
     public class IntakeConstants {
         public static int intakeCanId = 28;
+
+        public static double kP = 0.0;
+        public static double kI = 0.0;
+        public static double kD = 0.0;
+        public static double kFF = 0.00015;
+        public static double setPoint = 3000.0;
     }
 
     public class IntakeDeployerConstants {

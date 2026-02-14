@@ -13,7 +13,7 @@ public class IntakeExtend extends Command{
 
     @Override
     public void initialize() {
-        intakeDeployer.runToDownPosition();
+        intakeDeployer.runToExtendedPosition();
     }
 
     @Override

@@ -13,7 +13,7 @@ public class IntakeRetract extends Command{
 
     @Override
     public void initialize() {
-        intakeDeployer.runToUpPosition();
+        intakeDeployer.runToRetractedPosition();
     }
 
     @Override
