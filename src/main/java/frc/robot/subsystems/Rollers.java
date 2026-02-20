@@ -14,34 +14,59 @@ import static frc.robot.Constants.RollerConstants.*;
 
 public class Rollers extends SubsystemBase {
     private SparkFlex rollerMotor;
+    private SparkFlexConfig rollerMotorConfig;
+    private double mP, mI, mD, mFF;
 
     public Rollers() {
         rollerMotor = new SparkFlex(rollerCanId, MotorType.kBrushless);
-        rollerMotor.configure(createConfigurationForVelocity(), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        this.mP = kP;
+        this.mI = kI;
+        this.mD = kD;
+        this.mFF = kFF;
+        rollerMotorConfig = createConfigurationForVelocity(false);
+        rollerMotor.configure(rollerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        SmartDashboard.putNumber("roller P", mP);
+        SmartDashboard.putNumber("roller I", mI);
+        SmartDashboard.putNumber("roller D", mD);
+        SmartDashboard.putNumber("roller FF", mFF);
     }
 
     public void start() {
         rollerMotor.set(0.3);
     }
 
-    public void statAtVelocity() {
-        rollerMotor.getClosedLoopController().setSetpoint(setPoint, ControlType.kVelocity, ClosedLoopSlot.kSlot0, kFF);
+    public void startAtVelocity() {
+        rollerMotor.getClosedLoopController().setSetpoint(setPoint, ControlType.kVelocity, ClosedLoopSlot.kSlot0, mFF);
     }
     
     public void stop() {
         rollerMotor.stopMotor();
     }
 
-    private SparkFlexConfig createConfigurationForVelocity(){
+    private SparkFlexConfig createConfigurationForVelocity(boolean inverted){
         var motorConfig = new SparkFlexConfig();
-        motorConfig.closedLoop.pid(kP, kI, kD);
+        motorConfig.closedLoop.pid(mP, mI, mD);
         motorConfig.closedLoop.maxOutput(1.0);
         motorConfig.closedLoop.minOutput(-1.0);
+        motorConfig.inverted(inverted);
         return motorConfig;
     }
 
     @Override
     public void periodic(){
+        double pVal = SmartDashboard.getNumber("roller P", mP);
+        double iVal = SmartDashboard.getNumber("roller I", mI);
+        double dVal = SmartDashboard.getNumber("roller D", mD);
+        double ffVal = SmartDashboard.getNumber("roller FF", mFF);
+        if (mP != pVal || mI != iVal || mD != dVal || mFF != ffVal) {
+            mP = pVal;
+            mI = iVal;
+            mD = dVal;
+            mFF = ffVal;
+            rollerMotorConfig.closedLoop.pid(mP, mI, mD);
+            rollerMotor.configure(rollerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        }
         SmartDashboard.putNumber("Rollor Motor Velocity", rollerMotor.getEncoder().getVelocity());
     }
 }

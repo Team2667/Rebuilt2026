@@ -26,6 +26,7 @@ import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDeployerDefaultCommand;
 import frc.robot.commands.IntakeExtend;
+import frc.robot.commands.IntakeRetract;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Feeder;
@@ -156,8 +157,8 @@ public class RobotContainer {
         try {
             intakeDeployer = new IntakeDeployer();  
             intakeDeployer.setDefaultCommand(new IntakeDeployerDefaultCommand(intakeDeployer, shooterController));
-            //shooterController.a().onTrue();
-            //shooterController.b().onTrue(getAutonomousCommand());
+            shooterController.rightBumper().onTrue(new IntakeExtend(intakeDeployer).withTimeout(5));
+            shooterController.leftBumper().onTrue(new IntakeRetract(intakeDeployer).withTimeout(5));
         } catch(Throwable error){
             System.out.println(error.getMessage());
         }
@@ -165,11 +166,12 @@ public class RobotContainer {
             Feed feederCmd = new Feed(feeder);
             RollerCommand rollerCmd = new RollerCommand(rollers);
             shooterController.leftTrigger().whileTrue(feederCmd.alongWith(rollerCmd));
+            shooterController.y().onTrue(feederCmd.alongWith(rollerCmd).withTimeout(3));
         } 
         if (intake != null && rollers != null) {
             IntakeCommand intakeCmd = new IntakeCommand(intake);
             RollerCommand rollerCmd = new RollerCommand(rollers);
-            shooterController.rightBumper().whileTrue(intakeCmd.alongWith(rollerCmd));
+            shooterController.rightTrigger().whileTrue(intakeCmd.alongWith(rollerCmd));
         }
 
     }

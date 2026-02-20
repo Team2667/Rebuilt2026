@@ -20,18 +20,27 @@ public class IntakeDeployer extends SubsystemBase{
     private SparkFlex deployMotor;
     private State upState = new State(upSetPoint, 0.0);
     private State downState = new State(downSetPoint, 0.0);
+    private SparkFlexConfig motorConfig;
+    private static double mP = kP;
+    private static double mI = kI;
+    private static double mD = kD;
+
     private ArmFeedforward ff;
 
     public IntakeDeployer() {
         deployMotor = new SparkFlex(deployerCanId, MotorType.kBrushless);
         ff = new ArmFeedforward(0, kG, kV, kA);
-        var motorConfig = new SparkFlexConfig();
+        motorConfig = new SparkFlexConfig();
         motorConfig.closedLoop.pid(kP, kI, kD);
         motorConfig.closedLoop.outputRange(-.5, .5);
         motorConfig.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
         motorConfig.softLimit.reverseSoftLimit(extendedLimit);
         motorConfig.softLimit.forwardSoftLimit(retractLimit);
         deployMotor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        SmartDashboard.putNumber("Intake Deployer P", mP);
+        SmartDashboard.putNumber("Intake Deployer I", mI);
+        SmartDashboard.putNumber("Intake Deployer D", mD);
     }
 
     public void retract() {
@@ -60,6 +69,15 @@ public class IntakeDeployer extends SubsystemBase{
 
     @Override
     public void periodic() {
+        double pVal = SmartDashboard.getNumber("Intake Deployer P", mP);
+        double iVal = SmartDashboard.getNumber("Intake Deployer I", mI);
+        double dVal = SmartDashboard.getNumber("Intake Deployer D", mD);
+        if (pVal != mP || iVal != mI || dVal != mD) {
+            mP = pVal;
+            mI = iVal;
+            mD = dVal;
+            motorConfig.closedLoop.pid(mP, mI, mD);
+        }
         SmartDashboard.putNumber("Deployer Position", deployMotor.getAbsoluteEncoder().getPosition());
     }
 }

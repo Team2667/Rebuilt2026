@@ -61,7 +61,7 @@ public class Constants {
         public static double kV = 0.0;
         public static double kA = 0.0;
         public static double extendedLimit = 0.6;
-        public static double retractLimit = 0.25;
+        public static double retractLimit = 0.35;
         public static double extendSpeed = -0.1;
         public static double retractSpeed = 0.1;
     }

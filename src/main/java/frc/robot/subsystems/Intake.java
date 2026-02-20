@@ -57,7 +57,7 @@ public class Intake extends SubsystemBase {
         double pVal = SmartDashboard.getNumber("IntakeP", fP);
         double iVal = SmartDashboard.getNumber("IntakeI", fI);
         double dVal = SmartDashboard.getNumber("IntakeD", fD);
-        double ffVal = SmartDashboard.getNumber("IntakeD", fFF);
+        double ffVal = SmartDashboard.getNumber("IntakeFF", fFF);
         fFF = SmartDashboard.getNumber("IntakeFF", fFF);
         if (pVal != fP || iVal != fI || dVal != fD || ffVal != fFF) {
             motorConfig.closedLoop.pid(pVal, iVal, dVal);
@@ -66,7 +66,6 @@ public class Intake extends SubsystemBase {
             fI = iVal;
             fD = dVal;
             fFF = ffVal;
-
         }
         SmartDashboard.putNumber("Intake Motor Velocity", intakeMotor.getEncoder().getVelocity());
     }
