@@ -18,14 +18,14 @@ public class Shooter extends SubsystemBase{
 
     public Shooter() {
         motor1 = new SparkFlex(motor1CanId, MotorType.kBrushless);
-        motor1.configure(createConfigurationForVelocity(), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        motor1.configure(createConfigurationForVelocity(false), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         motor2 = new SparkFlex(motor2CanId, MotorType.kBrushless);
-        motor2.configure(createConfigurationForVelocity(), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        motor2.configure(createConfigurationForVelocity(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void start() {
         motor1.getClosedLoopController().setSetpoint(setPoint, ControlType.kVelocity, ClosedLoopSlot.kSlot0, kFF);
-        motor1.getClosedLoopController().setSetpoint(setPoint, ControlType.kVelocity, ClosedLoopSlot.kSlot0, kFF);
+        motor2.getClosedLoopController().setSetpoint(setPoint, ControlType.kVelocity, ClosedLoopSlot.kSlot0, kFF);
     }
 
     public void stop() {
@@ -33,17 +33,19 @@ public class Shooter extends SubsystemBase{
         motor2.stopMotor();
     }
 
-    private SparkFlexConfig createConfigurationForVelocity(){
+    private SparkFlexConfig createConfigurationForVelocity(boolean isInverted){
         var motorConfig = new SparkFlexConfig();
         motorConfig.closedLoop.pid(kP, kI, kD);
         motorConfig.closedLoop.maxOutput(1.0);
         motorConfig.closedLoop.minOutput(-1.0);
+        motorConfig.inverted(isInverted);
+        motorConfig.closedLoop.iMaxAccum(kMaxI);
         return motorConfig;
     }
 
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Shooter Motor 1 Velocity", motor1.getEncoder().getVelocity());
-        SmartDashboard.putNumber("Shooter Motor 2 Velocity", motor1.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Shooter Motor 2 Velocity", motor2.getEncoder().getVelocity());
     }
 }

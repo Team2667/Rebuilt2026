@@ -12,7 +12,7 @@ public class Feed extends Command {
     }
        @Override
     public void initialize() {
-        feeder.feed();
+        feeder.feedAtConstantVelocity();
     }
     
     public void end (boolean isInterupted) {

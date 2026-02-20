@@ -138,7 +138,6 @@ public class RobotContainer {
         } catch(Throwable error) {
             System.out.println(error.getMessage());
         }
-
         try {
             feeder = new Feeder();
         } catch(Throwable error) {
