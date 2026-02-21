@@ -55,15 +55,14 @@ public class Constants {
 
     public class IntakeDeployerConstants {
         public static int deployerCanId = 30;
-        public static double kP = 0.0;
+        public static double kP = 2.16;
         public static double kI = 0.0;
-        public static double kD = 0.0;
-        public static double kFF = 0.00015;
+        public static double kD = 0.01;
         public static double upSetPoint = 0.5;
         public static double downSetPoint = 0.8;
-        public static double kG = 0.0;
-        public static double kV = 0.0;
-        public static double kA = 0.0;
+        public static double kG = 0.16;
+        public static double kV = 6.33;
+        public static double kA = 0.02;
         public static double extendedLimit = 0.6;
         public static double retractLimit = 0.35;
         public static double extendSpeed = -0.1;
@@ -73,7 +72,7 @@ public class Constants {
         private static final double distanceToFrontX = 0.132;
         private static final double distanceFromLeftY = -0.046;
         private static final double distanceFromFloorZ = 0.508;
-        public static final String cameraName = "PC_SOMETHING";
+        public static final String cameraName = "PC_Camera";
         public static final AprilTagFieldLayout tagLayout =
                 AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
         public static final Transform3d robotToCam = new Transform3d(distanceToFrontX, distanceFromLeftY, distanceFromFloorZ, new Rotation3d(0,0,0));
