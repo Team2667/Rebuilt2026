@@ -10,6 +10,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -67,14 +68,20 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-         drivetrain = TunerConstants.createDrivetrain();
+        drivetrain = TunerConstants.createDrivetrain();
+        InitializeSubsystems();
+        registerCommands();
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
-        InitializeSubsystems();
         configureBindings();
 
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();
+    }
+
+    private void registerCommands() {
+        NamedCommands.registerCommand("FireShooter",new Feed(feeder).alongWith(new RollerCommand(rollers)));
+
     }
 
     private void configureBindings() {

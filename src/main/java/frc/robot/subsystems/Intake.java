@@ -32,7 +32,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void start() {
-        intakeMotor.set(0.3);
+        intakeMotor.set(0.5);
     }
 
     public void startAtVelocity() {
