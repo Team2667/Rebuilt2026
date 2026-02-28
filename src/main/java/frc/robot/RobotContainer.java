@@ -12,7 +12,9 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.path.PathConstraints;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -80,10 +82,17 @@ public class RobotContainer {
     }
 
     private void registerCommands() {
-        NamedCommands.registerCommand("FireShooter",new Feed(feeder)
-        .alongWith(new RollerCommand(rollers))
-        .withTimeout(3.0));
+        NamedCommands.registerCommand("FireShooter",getFireCommand().withTimeout(3.0));
 
+    }
+
+    private Command getFireCommand() {
+        return new Feed(feeder).alongWith(new RollerCommand(rollers));
+    }
+
+    private Command getToMiddleShootPose() {
+        Command command = AutoBuilder.pathfindToPoseFlipped(new Pose2d(2.271, 3.991, new Rotation2d(Math.toRadians(180.000))), PathConstraints.unlimitedConstraints(12.0));
+        return command.andThen(getFireCommand().withTimeout(2.0));
     }
 
     private void configureBindings() {
@@ -174,7 +183,9 @@ public class RobotContainer {
             IntakeCommand intakeCmd = new IntakeCommand(intake);
             RollerCommand rollerCmd = new RollerCommand(rollers);
             shooterController.rightTrigger().whileTrue(intakeCmd.alongWith(rollerCmd));
+            shooterController.y().onTrue(getToMiddleShootPose());
         }
+
 
     }
 }

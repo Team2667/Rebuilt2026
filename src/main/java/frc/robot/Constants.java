@@ -69,9 +69,9 @@ public class Constants {
         public static double retractSpeed = 0.1;
     }
     public class Vision {
-        private static final double distanceToFrontX = 0.132;
-        private static final double distanceFromLeftY = -0.046;
-        private static final double distanceFromFloorZ = 0.508;
+        private static final double distanceToFrontX = 0.38;
+        private static final double distanceFromLeftY = 0.39;
+        private static final double distanceFromFloorZ = 0.85;
         public static final String cameraName = "PC_Camera";
         public static final AprilTagFieldLayout tagLayout =
                 AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
