@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6038674698795177,
+        "x": 3.604,
         "y": 7.433518072289157
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3639534883720925,
+        "x": 2.364086018492575,
         "y": 7.239516994633274
       },
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -1.4688007143857278
+    "rotation": -178.88634200804387
   },
   "reversed": false,
   "folder": "Pickup and Shoot Paths",

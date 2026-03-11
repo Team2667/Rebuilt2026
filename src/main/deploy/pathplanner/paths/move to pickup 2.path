@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 1.1925534950071324,
+        "x": 0.65,
         "y": 6.008
       },
       "prevControl": {
-        "x": 1.852425106990014,
-        "y": 6.163409415121254
+        "x": 1.1157917261055639,
+        "y": 6.059900142653353
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.5477101065976
+    "rotation": 178.2447880527435
   },
   "reversed": false,
   "folder": "Pickup and Shoot Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 172.08805387617272
   },
   "useDefaultConstraints": true
 }

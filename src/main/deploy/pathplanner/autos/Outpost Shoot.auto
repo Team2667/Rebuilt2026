@@ -11,22 +11,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "RollerCommand"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "FireShooter"
-                }
-              }
-            ]
+            "name": "FireShooter"
           }
         }
       ]

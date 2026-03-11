@@ -87,7 +87,7 @@ public class RobotContainer {
     private void registerCommands() {
         NamedCommands.registerCommand("FireShooter",getFireCommand().withTimeout(3.0));
         NamedCommands.registerCommand("DeployIntake", new IntakeExtend(intakeDeployer));
-        NamedCommands.registerCommand("runIntake", new IntakeCommand(intake));
+        NamedCommands.registerCommand("runIntake", new IntakeCommand(intake).alongWith(new RollerCommand(rollers)));
         NamedCommands.registerCommand("stopIntake", new InstantCommand(() -> intake.stop(), intake));
     }
 
@@ -191,13 +191,16 @@ public class RobotContainer {
             System.out.println(error.getMessage());
         }
         if (rollers != null && feeder != null) {
-            shooterController.leftTrigger().whileTrue(new Feed(feeder).alongWith(new RollerCommand(rollers)));
-            shooterController.y().onTrue(new Feed(feeder).alongWith(new RollerCommand(rollers)).withTimeout(3));
+            shooterController.b().whileTrue(new Feed(feeder).alongWith(new RollerCommand(rollers)));
+        //    shooterController.y().onTrue(new Feed(feeder).alongWith(new RollerCommand(rollers)).withTimeout(3));
         } 
         if (intake != null && rollers != null) {
             IntakeCommand intakeCmd = new IntakeCommand(intake);
+            IntakeCommand intakeCmd2 = new IntakeCommand(intake);
             RollerCommand rollerCmd = new RollerCommand(rollers);
+            RollerCommand rollerCmd2 = new RollerCommand(rollers);
             shooterController.rightTrigger().whileTrue(intakeCmd.alongWith(rollerCmd));
+            shooterController.leftTrigger().whileTrue(intakeCmd2.alongWith(rollerCmd2));
         }
 
 
