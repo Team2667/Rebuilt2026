@@ -78,4 +78,14 @@ public class Constants {
         public static final Transform3d robotToCam = new Transform3d(distanceToFrontX, distanceFromLeftY, distanceFromFloorZ, new Rotation3d(0,0,0));
         public static final boolean useVision = true;
     }
+
+    public static class HubConstants {
+        public static final double fieldLength = 16.541;
+        public static final double hubX = 4.6228;
+        public static final double hubY = 4.034536;
+        public static final double radius = 2.286;
+        public static final double positionTolerance = 0.05;
+        public static final double headingTolerance = 0.05;
+        public static final double tangentAngleDeg = 90.0;
+    }
 }

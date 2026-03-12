@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.DriveToHubTangentCommand;
 import frc.robot.commands.Feed;
 import frc.robot.commands.RollerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
@@ -146,7 +147,7 @@ public class RobotContainer {
         driveTrainController.start().and(driveTrainController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         driveTrainController.start().and(driveTrainController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-        driveTrainController.y().onTrue(runToPath("Tel Score From Middle"));
+        driveTrainController.y().onTrue(new DriveToHubTangentCommand(drivetrain));
 
         // Reset the field-centric heading on left bumper press.
         driveTrainController.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
@@ -202,7 +203,5 @@ public class RobotContainer {
             shooterController.rightTrigger().whileTrue(intakeCmd.alongWith(rollerCmd));
             shooterController.leftTrigger().whileTrue(intakeCmd2.alongWith(rollerCmd2));
         }
-
-
     }
 }
