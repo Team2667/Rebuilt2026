@@ -6,6 +6,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.Optional;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -18,6 +20,9 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -105,7 +110,18 @@ public class RobotContainer {
       } catch(Exception e) {
         return drivetrain.applyRequest(() -> brake);
       }
+    }
 
+    private Command runToPoint(double x, double y, double heading){
+        Pose2d endpoint = new Pose2d(x, y, new Rotation2d(heading));
+        PathConstraints constraints = new PathConstraints(3.0, 4.0, Units.degreesToRadians(540), Units.degreesToRadians(720));
+        Optional<Alliance> alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            return alliance.get() == Alliance.Red ? AutoBuilder.pathfindToPoseFlipped(endpoint, constraints) : AutoBuilder.pathfindToPose(endpoint, constraints);
+        } else {
+           // return AutoBuilder.pathfindToPose(AutoBuilder.getCurrentPose(), constraints);
+           return AutoBuilder.pathfindToPose(endpoint, constraints);
+        }
     }
 
     private void configureBindings() {
@@ -146,7 +162,8 @@ public class RobotContainer {
         driveTrainController.start().and(driveTrainController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         driveTrainController.start().and(driveTrainController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-        driveTrainController.y().onTrue(runToPath("Tel Score From Middle"));
+        //driveTrainController.y().onTrue(runToPath("Tel Score From Middle"));
+        
 
         // Reset the field-centric heading on left bumper press.
         driveTrainController.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
@@ -155,7 +172,17 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
+        mapAutoTelliopCommands();
         return autoChooser.getSelected();
+    }
+
+    public void mapAutoTelliopCommands() {
+        //Pose2d endpoint = new Pose2d(2.220, 4.117, new Rotation2d(-46.736));
+        driveTrainController.b().onTrue(runToPoint(2.3, 2.808, 38).andThen(new InstantCommand(() -> shooterController.setRumble(RumbleType.kBothRumble, 1))));
+        driveTrainController.y().onTrue(runToPoint(2.22, 4.00, 0.00).andThen(new InstantCommand(() -> shooterController.setRumble(RumbleType.kBothRumble, 1))));
+        driveTrainController.x().onTrue(runToPoint(2.3, 5.519, -38).andThen(new InstantCommand(() -> shooterController.setRumble(RumbleType.kBothRumble, 1))));
+        
+        
     }
 
     private void InitializeSubsystems() {
