@@ -177,12 +177,9 @@ public class RobotContainer {
     }
 
     public void mapAutoTelliopCommands() {
-        //Pose2d endpoint = new Pose2d(2.220, 4.117, new Rotation2d(-46.736));
-        driveTrainController.b().onTrue(runToPoint(2.3, 2.808, 38).andThen(new InstantCommand(() -> shooterController.setRumble(RumbleType.kBothRumble, 1))));
-        driveTrainController.y().onTrue(runToPoint(2.22, 4.00, 0.00).andThen(new InstantCommand(() -> shooterController.setRumble(RumbleType.kBothRumble, 1))));
-        driveTrainController.x().onTrue(runToPoint(2.3, 5.519, -38).andThen(new InstantCommand(() -> shooterController.setRumble(RumbleType.kBothRumble, 1))));
-        
-        
+        driveTrainController.b().onTrue(runToPoint(2.3, 2.808, 38));
+        driveTrainController.y().onTrue(runToPoint(2.22, 4.00, 0.00));
+        driveTrainController.x().onTrue(runToPoint(2.3, 5.519, -38));
     }
 
     private void InitializeSubsystems() {
