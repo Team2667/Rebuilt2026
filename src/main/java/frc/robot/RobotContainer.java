@@ -119,8 +119,7 @@ public class RobotContainer {
         if (alliance.isPresent()) {
             return alliance.get() == Alliance.Red ? AutoBuilder.pathfindToPoseFlipped(endpoint, constraints) : AutoBuilder.pathfindToPose(endpoint, constraints);
         } else {
-           // return AutoBuilder.pathfindToPose(AutoBuilder.getCurrentPose(), constraints);
-           return AutoBuilder.pathfindToPose(endpoint, constraints);
+            return AutoBuilder.pathfindToPose(AutoBuilder.getCurrentPose(), constraints);
         }
     }
 
