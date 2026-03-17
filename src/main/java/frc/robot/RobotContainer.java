@@ -113,7 +113,7 @@ public class RobotContainer {
     }
 
     private Command runToPoint(double x, double y, double heading){
-        Pose2d endpoint = new Pose2d(x, y, new Rotation2d(heading));
+        Pose2d endpoint = new Pose2d(x, y, new Rotation2d(Math.toRadians(heading)));
         PathConstraints constraints = new PathConstraints(3.0, 4.0, Units.degreesToRadians(540), Units.degreesToRadians(720));
         Optional<Alliance> alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
@@ -176,9 +176,9 @@ public class RobotContainer {
     }
 
     public void mapAutoTelliopCommands() {
-        driveTrainController.b().onTrue(runToPoint(2.3, 2.808, 38));
+        driveTrainController.b().onTrue(runToPoint(2.369, 2.647, 31.541));
         driveTrainController.y().onTrue(runToPoint(2.22, 4.00, 0.00));
-        driveTrainController.x().onTrue(runToPoint(2.3, 5.519, -38));
+        driveTrainController.x().onTrue(runToPoint(2.369, 8-2.647, -31.514));
     }
 
     private void InitializeSubsystems() {
