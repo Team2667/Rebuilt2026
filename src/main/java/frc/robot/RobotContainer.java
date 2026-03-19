@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.*;
 import java.util.Optional;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -33,7 +34,9 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.Feed;
 import frc.robot.commands.RollerCommand;
+import frc.robot.commands.Rumble;
 import frc.robot.commands.ShooterDefaultCommand;
+import frc.robot.commands.UnJamFeeder;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDeployerDefaultCommand;
 import frc.robot.commands.IntakeExtend;
@@ -176,9 +179,15 @@ public class RobotContainer {
     }
 
     public void mapAutoTelliopCommands() {
-        driveTrainController.b().onTrue(runToPoint(2.369, 2.647, 31.541));
-        driveTrainController.y().onTrue(runToPoint(2.22, 4.00, 0.00));
-        driveTrainController.x().onTrue(runToPoint(2.369, 8-2.647, -31.514));
+        driveTrainController.b().onTrue(runToPoint(2.369, 2.647, 31.541)
+            .andThen(new Rumble(driveTrainController).withTimeout(0.5)
+            .alongWith(new Rumble(shooterController).withTimeout(0.5))));
+        driveTrainController.y().onTrue(runToPoint(2.22, 4.00, 0.00)
+            .andThen(new Rumble(driveTrainController).withTimeout(0.5)
+            .alongWith(new Rumble(shooterController).withTimeout(0.5))));
+        driveTrainController.x().onTrue(runToPoint(2.369, 8-2.647, -31.514)
+            .andThen(new Rumble(driveTrainController).withTimeout(0.5)
+            .alongWith(new Rumble(shooterController).withTimeout(0.5))));
     }
 
     private void InitializeSubsystems() {
@@ -224,6 +233,9 @@ public class RobotContainer {
             RollerCommand rollerCmd2 = new RollerCommand(rollers);
             shooterController.rightTrigger().whileTrue(intakeCmd.alongWith(rollerCmd));
             shooterController.leftTrigger().whileTrue(intakeCmd2.alongWith(rollerCmd2));
+        }
+        if (feeder != null) { 
+            shooterController.x().whileTrue(new UnJamFeeder(feeder));
         }
 
 

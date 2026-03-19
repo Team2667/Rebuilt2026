@@ -56,6 +56,11 @@ public class Feeder extends SubsystemBase{
         motor2.set(0.3);
     }
 
+    public void reverse() {
+        motor1.set(-0.01);
+        motor2.set(-0.01);
+    }
+
     public void feedAtConstantVelocity() {
         motor1.getClosedLoopController().setSetpoint(setPoint, ControlType.kVelocity, ClosedLoopSlot.kSlot0, fFF);
         motor2.getClosedLoopController().setSetpoint(setPoint, ControlType.kVelocity, ClosedLoopSlot.kSlot0, fFF);
