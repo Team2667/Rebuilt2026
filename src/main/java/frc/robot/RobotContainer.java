@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.Feed;
+import frc.robot.commands.FeederAgitateCommand;
 import frc.robot.commands.RollerCommand;
 import frc.robot.commands.Rumble;
 import frc.robot.commands.ShooterDefaultCommand;
@@ -42,6 +43,7 @@ import frc.robot.commands.IntakeDeployerDefaultCommand;
 import frc.robot.commands.IntakeExtend;
 import frc.robot.commands.IntakeRetract;
 import frc.robot.commands.ResetManualIntake;
+import frc.robot.commands.RollerAgitateCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Feeder;
@@ -223,8 +225,8 @@ public class RobotContainer {
             System.out.println(error.getMessage());
         }
         if (rollers != null && feeder != null) {
-            shooterController.b().whileTrue(new Feed(feeder).alongWith(new RollerCommand(rollers)));
-        //    shooterController.y().onTrue(new Feed(feeder).alongWith(new RollerCommand(rollers)).withTimeout(3));
+            shooterController.b().whileTrue(new FeederAgitateCommand(feeder).alongWith(new RollerAgitateCommand(rollers)));
+ //           shooterController.b().whileTrue(new Feed(feeder).alongWith(new RollerCommand(rollers)));
         } 
         if (intake != null && rollers != null) {
             IntakeCommand intakeCmd = new IntakeCommand(intake);

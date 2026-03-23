@@ -57,8 +57,8 @@ public class Feeder extends SubsystemBase{
     }
 
     public void reverse() {
-        motor1.set(-0.01);
-        motor2.set(-0.01);
+        motor1.set(-0.3);
+        motor2.set(-0.3);
     }
 
     public void feedAtConstantVelocity() {

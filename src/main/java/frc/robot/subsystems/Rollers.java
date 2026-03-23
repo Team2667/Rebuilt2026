@@ -36,6 +36,10 @@ public class Rollers extends SubsystemBase {
         rollerMotor.set(0.5);
     }
 
+    public void reverse() {
+        rollerMotor.set(-.5);
+    }
+
     public void startAtVelocity() {
         rollerMotor.getClosedLoopController().setSetpoint(setPoint, ControlType.kVelocity, ClosedLoopSlot.kSlot0, mFF);
     }
