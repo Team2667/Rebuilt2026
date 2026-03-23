@@ -18,7 +18,7 @@ public class Constants {
         public static double kI = 0.0000005;
         public static double kD = 0.0;
         public static double kFF = 5.20;
-        public static double setPoint = 2750.0;
+        public static double setPoint = 3000.0;
         public static double kMaxI = 100.0;
     }
 
