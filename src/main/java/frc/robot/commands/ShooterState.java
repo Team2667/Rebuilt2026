@@ -9,7 +9,7 @@ public class ShooterState {
     
     private static int beginShootingCount = 150;
     private static int rotateReverseCount = 25;
-    private static int rotateForwardCount = 25;
+    private static int rotateForwardCount = 50;
     private int count;
     State currentState;
 
